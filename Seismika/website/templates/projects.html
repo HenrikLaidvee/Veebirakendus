@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="project-container">
+  <h2 class="project-header">PROJEKTID</h2>
+
+  {% if projektid %}
+  <form method="post" action="{{ url_for('projects.projektid') }}">
+    <table class="project-table">
+      <thead>
+        <tr>
+          <th>Nimetus</th>
+          <th>Tähtaeg</th>
+          <th><button type="submit" class="delete-btn">Kustuta</button></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for projekt in projektid %}
+        <tr>
+          <td>
+            <a href="{{ url_for('reg.regressioon', projekt_id=projekt.id) }}">
+              {{ projekt.nimetus }}
+            </a>
+          </td>
+          <td>{{ projekt.tahtpaev.strftime('%d-%m-%Y') if projekt.tahtpaev else '–' }}</td>
+          <td><input type="checkbox" name="kustutatavad" value="{{ projekt.id }}"></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </form>
+  {% else %}
+    <div class="project-box">
+      <p>Mitte ühtegi projekti pole salvestatud.</p>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

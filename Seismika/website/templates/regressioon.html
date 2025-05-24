@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Regressioonanalüüs{% endblock %}
+
+{% block content %}
+<div class="reg-page-wrapper">
+  <div class="reg-page-container">
+    <h1 class="reg-page-title">Regressioonanalüüs</h1>
+
+    <form method="POST">
+      {% if projekt_id %}
+        <input type="hidden" name="projekt_id" value="{{ projekt_id }}">
+      {% endif %}
+
+      <!-- Projekti nimi ja tähtaeg -->
+      <div class="reg-setup-controls">
+        <label for="project_name">Projekti nimi:</label>
+        <input type="text" id="project_name" name="project_name"
+               value="{{ project_name or '' }}" required>
+
+        <label for="deadline">Tähtaeg:</label>
+        <input type="date" id="deadline" name="deadline"
+               value="{{ deadline or '' }}">
+      </div>
+
+      <!-- Lõhkamiste seadistus -->
+      <div class="reg-setup-controls">
+        <label for="blast_count">Lõhkamiste arv (2–50):</label>
+        <input type="number" id="blast_count" name="blast_count" min="2" max="50"
+               value="{{ blast_count or '' }}" required>
+
+        <label>
+          <input type="checkbox" id="vector2" name="vector2"
+                 {% if vector2_enabled %}checked{% endif %}>
+          Kasutada kahte vektorsummat
+        </label>
+
+        <button type="button" class="reg-submit-button" onclick="setupTable()">Seadista</button>
+        <div id="blast-warning" class="warning-message" style="display: none;"></div>
+      </div>
+
+      <!-- Student tegur ja tabel -->
+      <div id="calculation-area" style="display: block;">
+        <div id="reg-student-factor-group">
+          <label for="student_factor">Studenti tegur:</label>
+          <input type="number" step="0.0001" name="student_factor" id="student_factor"
+                 value="{{ student_factor or '' }}" required>
+        </div>
+
+        <table class="reg-table">
+          <thead>
+            <tr>
+              <th>Nr</th>
+              <th>Kaugus (m)</th>
+              <th>Laengumass (kg)</th>
+              <th>Vektorsumma 1 (mm/s)</th>
+              <th>Vektorsumma 2 (mm/s)</th>
+            </tr>
+          </thead>
+          <tbody id="blastTableBody">
+            {% if blasts %}
+              {% for b in blasts %}
+                <tr>
+                  <td>{{ b.nr }}</td>
+                  <td><input class="reg-input" type="number" step="any" name="kaugus_{{ b.nr }}" value="{{ b.kaugus }}"></td>
+                  <td><input class="reg-input" type="number" step="any" name="mass_{{ b.nr }}" value="{{ b.mass }}"></td>
+                  <td><input class="reg-input" type="number" step="any" name="vektor1_{{ b.nr }}" value="{{ b.vector1 }}"></td>
+                  <td>
+                    {% if vector2_enabled %}
+                      <input class="reg-input" type="number" step="any" name="vektor2_{{ b.nr }}" value="{{ b.vector2 }}">
+                    {% else %}
+                      –
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
+
+        <!-- Nupud -->
+        <div class="reg-submit">
+          <button type="submit" name="action" value="calculate" class="reg-submit-button">Arvuta</button>
+          <button type="submit" name="action" value="save" class="reg-submit-button">Salvesta</button>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div id="flash-container">
+              {% for message in messages %}
+                <div class="alert alert-warning flash-message">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+      </div>
+    </form>
+
+    {% if graafik1 %}
+      <img src="{{ graafik1 }}" alt="Graafik 1" style="max-width:100%;"/>
+      <div class="regression-formula-box">
+        <div class="formula-header">Regressioonivalemid – {{ valemid1.andur }}</div>
+        <div class="formula-row">Ülemine usaldusvahemik (95%): {{ valemid1.ylemine|safe }}</div>
+        <div class="formula-row">Alumine usaldusvahemik (95%): {{ valemid1.alumine|safe }}</div>
+        <div class="formula-row">Mõõtmiste keskmine: {{ valemid1.keskmine|safe }}</div>
+      </div>
+    {% endif %}
+
+    {% if graafik2 %}
+      <img src="{{ graafik2 }}" alt="Graafik 2" style="max-width:100%;"/>
+      <div class="regression-formula-box">
+        <div class="formula-header">Regressioonivalemid – {{ valemid2.andur }}</div>
+        <div class="formula-row">Ülemine usaldusvahemik (95%): {{ valemid2.ylemine|safe }}</div>
+        <div class="formula-row">Alumine usaldusvahemik (95%): {{ valemid2.alumine|safe }}</div>
+        <div class="formula-row">Mõõtmiste keskmine: {{ valemid2.keskmine|safe }}</div>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+<script>
+  setTimeout(function() {
+    const flashContainer = document.getElementById("flash-container");
+    if (flashContainer) {
+      flashContainer.style.transition = "opacity 0.5s ease-out";
+      flashContainer.style.opacity = "0";
+      setTimeout(() => flashContainer.remove(), 500);
+    }
+  }, 5000);
+</script>
+
+
+<script src="{{ url_for('static', filename='scripts/regressioon.js') }}"></script>
+{% endblock %}

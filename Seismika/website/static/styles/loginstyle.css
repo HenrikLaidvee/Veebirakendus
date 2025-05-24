@@ -1,0 +1,35 @@
+.notification-box {
+  background-color: #333;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  display: none;
+  z-index: 1000;
+  font-size: 14px;
+}
+.notification-box.success {
+  background-color: green;
+}
+.notification-box.error {
+  background-color: darkred;
+}
+
+.btn-block {
+  width: 100%;
+  height: 100%;
+}
+
+#edit-section .btn-primary {
+  background-color: #4CAF50; /* roheline */
+  border-color: #4CAF50;
+}
+
+#edit-section .btn-warning {
+  background-color: #f44336; /* punane */
+  border-color: #f44336;
+  color: white;
+}
+
+body, .auth-container, .auth-container * {
+  font-family: 'Cinzel', serif !important;
+}

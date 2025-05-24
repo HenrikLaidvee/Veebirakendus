@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% block title %}Seismika{% endblock %}
+{% block content %}
+    <div class="calc-container">
+<form method="POST">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <br />
+    <h1 align="center">Seismika kalkulaator</h3>
+    <br />
+    <div class="choose_arv_btn_group">
+        <input
+            name="arvutusObject"
+            type="radio"
+            value="1"
+            class="choose_arv_btn_group_button obej_toggle_left"
+            id="btnArv"
+            {% if data.checkMethod == 1 %}checked{% endif %}
+            onclick="selectArvutused('Arvuta', 'Ohutus')"
+        ></input>
+        <label for="btnArv" class="arvuta_object_btn">Parameetri Arvutamine</label>
+        <input
+            name="arvutusObject"
+            type="radio"
+            value="2"
+            class="choose_arv_btn_group_button obej_toggle_right"
+            id="btnOhu"
+            {% if data.checkMethod == 2 %}checked{% endif %}
+            onclick="selectArvutused('Ohutus', 'Arvuta')"
+        ></input>
+        <label for="btnOhu" class="arvuta_object_btn">Ohutuse Arvutamine</label>
+    </div>
+    <div class="class_arvuta" id="Arvuta">
+        <div class="choose_par_btn_group">
+            <input name="arvutusMethod"
+                   type="radio"
+                   class="choose_par_btn_group_button param_toggle_left"
+                   id="btnKiirus"
+                   onclick="selectParameter('tblMassArvuta', 'tblKiirusArvuta')"
+                   value="1"
+                   {% if request.form.get('arvutusMethod', '1') == '1' %}checked{% endif %} />
+            <label for="btnKiirus" class="arvuta_method_btn">Võnkekiirus</label>
+
+            <input name="arvutusMethod"
+                   type="radio"
+                   class="choose_par_btn_group_button param_toggle_right"
+                   id="btnMass"
+                   onclick="selectParameter('tblKiirusArvuta', 'tblMassArvuta')"
+                   value="2"
+                   {% if request.form.get('arvutusMethod') == '2' %}checked{% endif %} />
+            <label for="btnMass" class="arvuta_method_btn">Laengumass</label>
+
+        </div>
+        <div class="insert_table">
+            <div class="input_row" id="tblKaugusArvuta">
+                <label class="data_input_lbl" for="kaugusArvuta">Kaugus (m): </label>
+                <span class="data_input_span">
+                    <input type="number" class="input_data" id="kaugusArvuta" name="kaugusArvuta" value="{{ data.kaugusArvuta }}" step="0.001" placeholder="Kaugus" required />
+                </span>
+            </div>
+            <div class="input_row" id="tblKiirusArvuta">
+                <label class="data_input_lbl" for="vonkeKiirusArvuta">Võnkekiirus (mm/s): </label>
+                <span class="data_input_span">
+                    <input type="number" class="input_data" id="vonkeKiirusArvuta" name="vonkeKiirusArvuta" value="{{ data.vonkeKiirusArvuta }}" step="0.0001" placeholder="Võnkekiirus" />
+                </span>
+            </div>
+            <div class="input_row" id="tblMassArvuta">
+                <label class="data_input_lbl" for="laenguMassArvuta">Laengumass (kg): </label>
+                <span class="data_input_span">
+                    <input type="number" class="input_data" id="laenguMassArvuta" name="laenguMassArvuta" value="{{ data.laenguMassArvuta }}" step="0.001" placeholder="Laengumass" required />
+                </span>
+            </div>
+        </div>
+    </div>
+    <div id="Ohutus">
+        <div class="input_row" id="tblKaugusOhutu">
+            <label class="data_input_lbl" for="kaugusOhutu">Kaugus (m): </label>
+            <span class="data_input_span">
+                <input type="number" class="input_data" id="kaugusOhutu" name="kaugusOhutu" value="{{ data.kaugusOhutu }}" step="0.001" placeholder="Kaugus" />
+            </span>
+        </div>
+        <div class="input_row" id="tblMassOhutu">
+            <label class="data_input_lbl" for="laenguMassOhutu">Laengumass (kg): </label>
+            <span class="data_input_span">
+                <input type="number" class="input_data" id="laenguMassOhutu" name="laenguMassOhutu" value="{{ data.laenguMassOhutu }}" step="0.001" placeholder="Laengumass" />
+            </span>
+        </div>
+        <div class="input_row" id="tblMaxKiirus">
+            <label class="data_input_lbl" for="vonkeKiirusOhutu">Võnkekiirus (mm/s): </label>
+            <span class="data_input_span">
+                <input type="number" class="input_data" id="vonkeKiirusOhutu" name="vonkeKiirusOhutu" value="{{ data.vonkeKiirusOhutu * 10 if data.vonkeKiirusOhutu is not none else '' }}" step="0.0001" placeholder="Võnkekiirus" />
+            </span>
+        </div>
+        <label class="select_input_lbl" for="ehitiseAluspinnas">Ehitise aluspinnas: </label>
+        <select name="ehitiseAluspinnas" id="ehitiseAluspinnas" class="form-control"">
+            <option value="1" selected>Savi, kruus, liiv, pehme moreen</option>
+            <option value="2">Tugev moreen, kildad, pehme lubjakivi, liivakivi</option>
+            <option value="3">Graniit, gneiss, tugev lubjakivi, tugev liivakivi</option>
+        </select>
+        </select>
+
+        <label class="select_input_lbl" for="objectAluspinnas">Pinnase seismiline tegur: </label>
+        <select name="objectAluspinnas" id="objectAluspinnas" class="form-control"">
+            <option value="300" {% if request.form.get('objectAluspinnas') == '300' %}selected{% endif %}>
+                Veevaene kaljupinnas paksuga kuni 15m
+            </option>
+            <option value="450" {% if request.form.get('objectAluspinnas') == '450' %}selected{% endif %}>
+                Keskmise veesisaldusega üle 15 m paks liiva- või savipinnas
+            </option>
+            <option value="600" {% if request.form.get('objectAluspinnas') == '600' %}selected{% endif %}>
+                Veega küllastunud kobe pinnas (vesiliivad)
+            </option>
+        </select>
+        <label class="select_input_lbl" for="ehitiseLiik">Ehitise liik: </label>
+        <select name="ehitiseLiik" id="ehitiseLiik" class="form-control">
+
+            <option value="2.00" {% if request.form.get('ehitiseLiik') == "2.00" %}selected{% endif %}>
+                Rasked ehitised, nagu sillad ja sadamakaid
+            </option>
+
+            <option value="1.50" {% if request.form.get('ehitiseLiik') == "1.50" %}selected{% endif %}>
+                Betoon-, raudbetoon- ja teraskonstruktsioonid,
+                eelmainitud konstruktsioonidest tööstushooned,
+                pritsbetooniga kaetud allmaarajatised
+            </option>
+
+            <option value="1.2" {% if request.form.get('ehitiseLiik') == "1.2" %}selected{% endif %}>
+                Tellistest ja betoonist büroo- ja ühiskondlikud hooned,
+                betoonvundamendile või kaljupinnasele ehitatud puuhooned
+            </option>
+
+            <option value="1" {% if request.form.get('ehitiseLiik') == "1" %}selected{% endif %}>
+                Betoonist või tellistest elumajad (ehitises ei tohi olla kasutatud kergbetooni ega silikaattelliseid), allmaakaablid.
+                Kivistuv valubetoon eaga üle ühe nädala
+            </option>
+
+            <option value="0.75" {% if request.form.get('ehitiseLiik') == "0.75" %}selected{% endif %}>
+                Kergbetoonehitised (ka kõik muud ehitised, milles on kasutatud kergbetooni).
+                Kivistuv valubetoon eaga 3-7 ööpäeva
+            </option>
+
+            <option value="0.65" {% if request.form.get('ehitiseLiik') == "0.65" %}selected{% endif %}>
+                Eriti vibratsioonitundlikud ehitised, nagu muuseumid,
+                kirikud ja teised kõrgete võlvide ja suurte pingeväljadega hooned, silikaattellistest hooned.
+                Kivistuv valubetoon eaga kuni 3 ööpäeva
+            </option>
+
+            <option value="0.5" {% if request.form.get('ehitiseLiik') == "0.5" %}selected{% endif %}>
+                Varinguohtlikud ajaloo- ja arhitektuurimälestised, varemed
+            </option>
+
+        </select>
+    </div>
+    <div class="submit_data">
+        <button type="submit" class="submit_data_button">Arvuta</button>
+    </div>
+    <br />
+    <h2 align="center">Tulemus:</h2>
+    {% if data.result is not none and data.checkMethod == 2%}
+        <div class="Ohutus_result">
+            <table class="result-table">
+                <tbody>
+                    <tr>
+                        <td><p>Kaugus: {{ data.kaugusOhutu }} m</p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Laengumass: {{ data.laenguMassOhutu }} kg</p></td>
+                        <td><p>Maksimaalne laengumass: {{ data.result }} kg</p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Võnkekiirus: {{ data.vonkeKiirusOhutu }} cm/s</p></td>
+                        <td><p>Maksimaalne võnkekiirus {{ data.maxVonkeKiirus }} cm/s</p></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="Comparison_text">
+                {% if data.maxVonkeKiirus < data.vonkeKiirusOhutu %}
+                    <div class="danger alert">
+                        <div class="content">
+                          <div class="icon">
+                            <svg height="50" viewBox="0 0 512 512" width="50" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M449.07,399.08,278.64,82.58c-12.08-22.44-44.26-22.44-56.35,0L51.87,399.08A32,32,0,0,0,80,446.25H420.89A32,32,0,0,0,449.07,399.08Zm-198.6-1.83a20,20,0,1,1,20-20A20,20,0,0,1,250.47,397.25ZM272.19,196.1l-5.74,122a16,16,0,0,1-32,0l-5.74-121.95v0a21.73,21.73,0,0,1,21.5-22.69h.21a21.74,21.74,0,0,1,21.73,22.7Z"/></svg>
+                        </div>
+                          <p>Võnkekiirus ületab maksimaalset ohutut võnkekiirust!</p>
+                        </div>
+                      </div>
+                {% elif data.maxVonkeKiirus >= data.vonkeKiirusOhutu %}
+                    <div class="success alert">
+                        <div class="content">
+                          <div class="icon">
+                            <svg width="50" height="50" id="Layer_1" style="enable-background:new 0 0 128 128;" version="1.1" viewBox="0 0 128 128" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><circle fill="#fff" cx="64" cy="64" r="64"/></g><g><path fill="#3EBD61" d="M54.3,97.2L24.8,67.7c-0.4-0.4-0.4-1,0-1.4l8.5-8.5c0.4-0.4,1-0.4,1.4,0L55,78.1l38.2-38.2   c0.4-0.4,1-0.4,1.4,0l8.5,8.5c0.4,0.4,0.4,1,0,1.4L55.7,97.2C55.3,97.6,54.7,97.6,54.3,97.2z"/></g></svg>
+                        </div>
+                          <p>Võnkekiirus on ohutus vahemikus</p>
+                        </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="maarus">
+            <p>Maksimaalsete väärtuste arvutused on tehtud majandus- ja taristuministri määruse nr 49 „Lõhkematerjali kasutamise ja hävitamise
+                nõuded“ põhjal</p>
+        </div>
+    {% endif %}
+    {% if data.result is not none and data.checkMethod == 1%}
+        <div class="Arvutus_result">
+            <p class="Arvutus_result_text">Kaugus: {{ data.kaugusArvuta }} m</p>
+            {% if data.laenguMassArvuta is not none%}
+                <p class="Arvutus_result_text">Laengumass: {{ data.laenguMassArvuta }} kg</p>
+            {% endif %}
+            {% if data.vonkeKiirusArvuta is not none%}
+                <p class="Arvutus_result_text">Võnkekiirus: {{ data.vonkeKiirusArvuta }} mm/s</p>
+            {% endif %}
+            {% if data.vonkeKiirusArvuta is none%}
+                <p class="Arvutus_result_text">Võnkekiirus: {{ data.result }} mm/s</p>
+            {% elif data.laenguMassArvuta is none%}
+                <p class="Arvutus_result_text">Laengumass: {{ data.result }} kg</p>
+            {% endif %}
+        </div>
+    {% endif %}
+    <br />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkMethod = {{ data.checkMethod }};
+            if (checkMethod === 2) {
+                selectArvutused('Ohutus', 'Arvuta');
+            } else {
+                selectArvutused('Arvuta', 'Ohutus');
+            }
+
+            const arvutusMethod = "{{ request.form.get('arvutusMethod', '1') }}";
+            if (arvutusMethod === "1") {
+                selectParameter('tblMassArvuta', 'tblKiirusArvuta');
+            } else {
+                selectParameter('tblKiirusArvuta', 'tblMassArvuta');
+            }
+        });
+    </script>
+
+</form>
+    </div>
+{% endblock %}

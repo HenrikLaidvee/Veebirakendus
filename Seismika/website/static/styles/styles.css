@@ -1,0 +1,425 @@
+.graphReg{
+    display: flex;
+    justify-content: center;
+
+}
+.graphHeader{
+    text-align: center;
+}
+.choose_calc{
+    text-align: center;
+    font-size: large;
+}
+.choose_arv_btn_group{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5%;
+}
+.choose_arv_btn_group_button{
+    width: 25%;
+}
+.choose_par_btn_group{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5%;
+}
+.choose_par_btn_group_button{
+    width: 15%;
+}
+#Arvuta{
+    display: block;
+}
+#Ohutus{
+    display: none;
+}
+#tblKiirus{
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#tblMass{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#tblMaxKiirus{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#tblKaugus{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.data_input_lbl {
+    flex: 1;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.data_input_span{
+    flex: 2;
+    padding: 8px;
+}
+.input_data{
+    width: 50%;
+}
+.submit_data{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3%;
+    margin-top: -3%;
+}
+.submit_data_button{
+    appearance: button;
+    background-color: black;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: din-round,sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    line-height: 20px;
+    margin-top: 5%;
+    outline: none;
+    overflow: visible;
+    padding: 13px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    transition: filter .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 10%;
+}
+
+.submit_data_button:after {
+    background-clip: padding-box;
+    background-color: black;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    bottom: -4px;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.submit_data_button,
+.submit_data_button:focus {
+    user-select: auto;
+}
+
+.submit_data_button:hover:not(:disabled) {
+    filter: brightness(1.1);
+    -webkit-filter: brightness(1.1);
+}
+
+.submit_data_button:disabled {
+    cursor: auto;
+}
+
+.submit_data_button:active {
+    border-width: 4px 0 0;
+    background: none;
+}
+.arvuta_method_btn{
+    border: 5px solid black;
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    transition: background 600ms ease, color 600ms ease;
+    width: 25%;
+}
+.arvuta_object_btn{
+    border: 5px solid black;
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    transition: background 600ms ease, color 600ms ease;
+    width: 35%;
+}
+
+input[type="radio"].choose_par_btn_group_button {
+    display: none;
+}
+
+input[type="radio"].choose_par_btn_group_button + label {
+    cursor: pointer;
+    min-width: 60px;
+    padding: 10px 20px;
+    border: 2px solid black;
+    display: inline-block;
+    background-color: #f0f0f0;
+    color: black;
+    position: relative;
+    transition: background 0.3s, color 0.3s;
+}
+
+input[type="radio"].choose_par_btn_group_button:hover + label {
+    background-color: #e0e0e0;
+    color: black;
+}
+
+input[type="radio"].choose_par_btn_group_button.param_toggle_left + label {
+    border-right: none;
+}
+
+input[type="radio"].choose_par_btn_group_button.param_toggle_right + label {
+    margin-left: -5px;
+}
+
+input[type="radio"].choose_par_btn_group_button:checked + label {
+    background-color: black;
+    color: white;
+}
+
+
+input[type="radio"].choose_arv_btn_group_button {
+    display: none;
+}
+
+input[type="radio"].choose_arv_btn_group_button + label {
+    cursor: pointer;
+    min-width: 60px;
+    padding: 10px 20px;
+    border: 2px solid black;
+    display: inline-block;
+    background-color: #f0f0f0;
+    color: black;
+    position: relative;
+    transition: background 0.3s, color 0.3s;
+}
+
+input[type="radio"].choose_arv_btn_group_button:hover + label {
+    background-color: #e0e0e0;
+    color: black;
+}
+
+input[type="radio"].choose_arv_btn_group_button.obej_toggle_left + label {
+    border-right: none;
+}
+
+input[type="radio"].choose_arv_btn_group_button.obej_toggle_right + label {
+    margin-left: -5px;
+}
+
+input[type="radio"].choose_arv_btn_group_button:checked + label {
+    background-color: black;
+    color: white;
+}
+.select_input_lbl{
+    display: block;
+    margin-top: 2%;
+    margin-bottom: 1%;
+    text-align: center;
+}
+
+.Ohutus_result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+}
+
+table {
+	width: 800px;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    text-align: center;
+    font-size: 120%;
+}
+
+td {
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #000000;
+}
+
+.Arvutus_result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    text-align: center;
+    font-size: 120%;
+}
+
+.calc-container {
+    background-color: #f5f5f5;         /* helehall taust */
+    padding: 60px 80px;                /* rohkem ruumi ümber vormi */
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    max-width: 1200px;                 /* suurem laius */
+    margin: 80px auto;
+    box-shadow: 0 0 25px rgba(0,0,0,0.1);
+}
+
+
+.alert{
+    display: flex;
+    align-items:center;
+    padding: 0.55rem 0.65rem 0.55rem 0.75rem;
+    border-radius:1rem;
+    min-width:400px;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    box-shadow:
+    0px 3.2px 13.8px rgba(0, 0, 0, 0.02),
+    0px 7.6px 33.3px rgba(0, 0, 0, 0.028),
+    0px 14.4px 62.6px rgba(0, 0, 0, 0.035),
+    0px 25.7px 111.7px rgba(0, 0, 0, 0.042),
+    0px 48px 208.9px rgba(0, 0, 0, 0.05),
+    0px 115px 500px rgba(0, 0, 0, 0.07)
+  }
+  .content{
+    display: flex;
+    align-items:center;
+  }
+  .icon{
+    padding: 0.5rem;
+    margin-right: 1rem;
+    border-radius:39% 61% 42% 58% / 50% 51% 49% 50%;
+    box-shadow:
+    0px 3.2px 13.8px rgba(0, 0, 0, 0.02),
+    0px 7.6px 33.3px rgba(0, 0, 0, 0.028),
+    0px 14.4px 62.6px rgba(0, 0, 0, 0.035),
+    0px 25.7px 111.7px rgba(0, 0, 0, 0.042),
+    0px 48px 208.9px rgba(0, 0, 0, 0.05),
+    0px 115px 500px rgba(0, 0, 0, 0.07)
+  }
+  .close{
+    background-color: transparent;
+    border:none;
+    outline:none;
+    transition:all 0.2s ease-in-out;
+    padding: 0.75rem;
+    border-radius:0.5rem;
+    cursor:pointer;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+  }
+  .close:hover{
+    background-color: #fff;
+  }
+
+  .success{
+    background-color: rgba(62, 189, 97,0.2);
+    border:2px solid #3ebd61;
+  }
+  .success .icon{
+    background-color:#3ebd61;
+  }
+  .info{
+    background-color: rgba(0, 108, 227,0.2);
+    border:2px solid black;
+  }
+  .info .icon{
+    background-color: black;
+  }
+  .warning{
+    background-color: rgba(239, 148, 0, 0.2);
+    border:2px solid #EF9400;
+  }
+  .warning .icon{
+    background-color: #EF9400;
+  }
+
+  .danger{
+    background-color: rgba(236, 77, 43, 0.2);
+    border:2px solid #EF9400;
+  }
+  .danger .icon{
+    background-color: #EC4D2B;
+  }
+
+  .Comparison_text{
+    margin-top: 3%;
+    font-size: large;
+}
+
+.maarus{
+    font-size: small;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.result-table td {
+  background-color: white;
+  border: none;
+  padding: 15px 20px;
+  color: #000;
+  font-size: 1.1em;
+}
+
+#tblMassArvuta,
+#tblKiirusArvuta,
+#tblKaugusArvuta {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#tblMassArvuta {
+    display: flex;
+}
+
+#tblKiirusArvuta,
+#tblMassArvuta {
+    display: none;
+}
+
+input[name="arvutusMethod"]:checked#btnKiirus ~ #tblMassArvuta {
+    display: flex;
+}
+input[name="arvutusMethod"]:checked#btnMass ~ #tblKiirusArvuta {
+    display: flex;
+}
+
+.input_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}

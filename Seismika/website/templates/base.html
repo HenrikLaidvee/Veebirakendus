@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Seismika{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <!-- Font Awesome (ikoonid) -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+
+    <!-- Kohalikud stiilid -->
+
+    {% block head %}
+    <link rel="stylesheet" href="/static/styles/mainstyle.css">
+    <link rel="stylesheet" href="/static/styles/styles.css">
+    {% endblock %}
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
+
+    <!-- JavaScript -->
+    <script src="/static/scripts/scripts.js"></script>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="home">
+        <a href="/" class="home-link">Seismika</a>
+    </div>
+    <nav class="header-text">
+        <a href="/regressioon">Regressioonanalüüs</a>
+        <a href="/projektid">Projektid</a>
+    </nav>
+    <div class="profile">
+    {% if session.user %}
+        <a href="/profile" class="profile-link">Profiil</a>
+    {% else %}
+        <a href="/login" class="profile-link">Logimine</a>
+    {% endif %}
+</div>
+</header>
+
+{% block content %}
+{% endblock %}
+
+<!-- Bootstrap JS (ainult kui vaja navbare vms) -->
+<script
+  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"
+></script>
+
+</body>
+</html>
